@@ -1,4 +1,13 @@
 package dev.yaghm.plugin.internal
 
-class YaghmPlugin {
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+
+class YaghmPlugin : Plugin<Project> {
+
+    override fun apply(target: Project) {
+        TODO("Not yet implemented")
+    }
+
+
 }
