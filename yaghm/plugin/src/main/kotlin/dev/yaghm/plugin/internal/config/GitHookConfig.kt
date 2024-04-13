@@ -5,7 +5,7 @@ annotation class GitHookDSL
 
 @GitHookDSL
 class GitHookConfig {
-    var type: String = ""
+    var type: GitHookType? = null
     var doFirstAction: ((GitHookAction) -> Unit)? = null
     var action: ((GitHookAction) -> Unit)? = null
     var doLastAction: ((GitHookAction) -> Unit)? = null
@@ -29,7 +29,7 @@ fun preCommit(configure: GitHookConfig.() -> Unit): GitHookConfig {
 
 fun prePush(filePath: String): GitHookConfig {
     return GitHookConfig().apply {
-        this.type = "preCommit"
+        this.type = GitHookType.PREPUSH
         this.action = {
             GitHookAction().apply {
                 command = filePath
@@ -42,7 +42,7 @@ fun prePush(filePath: String): GitHookConfig {
 @GitHookDSL
 fun configure(type: String, configure: GitHookConfig.() -> Unit): GitHookConfig {
     val gitHookConfig = GitHookConfig().apply {
-        this.type = type
+        this.type = GitHookType.entries.firstOrNull { it.type==type }
     }
     gitHookConfig.configure()
     return gitHookConfig
@@ -59,4 +59,10 @@ fun foo() {
 
         }
     }
+}
+
+enum class GitHookType(val type: String?) {
+    PRECOMMIT("precommit"),
+    PREPUSH("prepush"),
+    NI(null)
 }
