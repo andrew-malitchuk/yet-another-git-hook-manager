@@ -3,7 +3,7 @@ package dev.yaghm.plugin.internal.config
 @DslMarker
 annotation class GitHookDSL
 
-@GitHookDSL
+
 class GitHookConfig {
     var type: GitHookType? = null
     var doFirstAction: ((GitHookAction) -> Unit)? = null
@@ -11,18 +11,17 @@ class GitHookConfig {
     var doLastAction: ((GitHookAction) -> Unit)? = null
 }
 
-@GitHookDSL
+
 class GitHookAction {
     var command: String? = null
 }
 
-@GitHookDSL
+
 fun GitHookConfig.action(configure: (GitHookAction) -> Unit) {
     action = configure
 }
 
 //
-@GitHookDSL
 fun preCommit(configure: GitHookConfig.() -> Unit): GitHookConfig {
     return configure("preCommit", configure)
 }
@@ -39,7 +38,6 @@ fun prePush(filePath: String): GitHookConfig {
 }
 //
 
-@GitHookDSL
 fun configure(type: String, configure: GitHookConfig.() -> Unit): GitHookConfig {
     val gitHookConfig = GitHookConfig().apply {
         this.type = GitHookType.entries.firstOrNull { it.type==type }
