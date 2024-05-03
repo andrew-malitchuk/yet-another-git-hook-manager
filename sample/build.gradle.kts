@@ -26,13 +26,6 @@ android {
         getByName("debug") {
         }
     }
-    flavorDimensions += "version"
-    productFlavors {
-        create("demo") {
-            dimension = "version"
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
