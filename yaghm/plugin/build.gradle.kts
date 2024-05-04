@@ -44,7 +44,7 @@ gradlePlugin {
             version = property("VERSION").toString()
             description = property("DESCRIPTION").toString()
             displayName = property("DISPLAY_NAME").toString()
-            tags.set(listOf("android", "githook",))
+            tags.set(listOf("android", "githook"))
         }
     }
 }
