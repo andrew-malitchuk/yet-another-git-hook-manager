@@ -40,7 +40,7 @@ fun prePush(filePath: String): GitHookConfig {
 
 fun configure(type: String, configure: GitHookConfig.() -> Unit): GitHookConfig {
     val gitHookConfig = GitHookConfig().apply {
-        this.type = GitHookType.entries.firstOrNull { it.type==type }
+        this.type = GitHookType.entries.firstOrNull { it.type == type }
     }
     gitHookConfig.configure()
     return gitHookConfig
