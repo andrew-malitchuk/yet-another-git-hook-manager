@@ -3,6 +3,7 @@ package dev.yaghm.plugin.internal.config
 import dev.yaghm.plugin.common.model.FilePath
 import dev.yaghm.plugin.internal.dsl.GitHookAction
 import dev.yaghm.plugin.internal.dsl.GitHookType
+import dev.yaghm.plugin.internal.dsl.gradle
 import dev.yaghm.plugin.internal.dsl.preCommit
 
 class GitHookConfig {
@@ -26,6 +27,9 @@ fun foo() {
     configure("preCommit") {
         action = {
 
+        }
+        doLast = {
+            gradle("ktlint")
         }
     }
     preCommit {
