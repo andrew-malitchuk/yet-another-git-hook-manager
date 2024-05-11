@@ -1,4 +1,4 @@
-package dev.yaghm.plugin.internal.dsl
+package dev.yaghm.plugin.internal.core.dsl
 
 enum class GitHookType(val type: String?) {
     /**
