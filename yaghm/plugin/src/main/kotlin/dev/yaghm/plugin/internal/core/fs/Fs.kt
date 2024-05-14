@@ -44,6 +44,12 @@ class Fs {
         }
     }
 
+    fun deleteFile(filePath: String) {
+        val file = File(filePath)
+        require(file.exists())
+        file.delete()
+    }
+
     fun appendTextToFile(filePath: String, textToAdd: String) {
         val file = File(filePath)
 
@@ -70,6 +76,16 @@ class Fs {
             writer.close()
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    fun makeFileExecutable(filePath: String): Boolean {
+        val file = File(filePath)
+        require(file.exists())
+        return if (file.exists()) {
+            file.setExecutable(true)
+        } else {
+            false
         }
     }
 
