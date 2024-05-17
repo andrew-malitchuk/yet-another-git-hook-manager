@@ -5,10 +5,30 @@ import java.io.File
 
 
 fun Project.getProjectPath(): String {
-    return this.projectDir.absolutePath
+    return this.rootDir.absolutePath
 }
 
 fun Project.isGitFolderExist(): Boolean {
-    val gitDir = File(projectDir, ".git")
+    val gitDir = File(getProjectPath(), ".git")
     return gitDir.exists() && gitDir.isDirectory
+}
+
+fun Project.findGitFolder(): File? {
+    var currentDir = File(getProjectPath())
+
+    while (currentDir.parentFile != null) {
+        val gitDir = File(currentDir, ".git")
+        if (gitDir.exists() && gitDir.isDirectory) {
+            return gitDir
+        }
+        currentDir = currentDir.parentFile
+    }
+
+    return null
+}
+
+fun Project.findGitHookFolder(): File? {
+    val gitFolder = findGitFolder()
+    return gitFolder?.absolutePath?.plus("/hooks")?.let { File(it) }
+
 }

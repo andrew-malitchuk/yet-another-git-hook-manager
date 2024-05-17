@@ -3,7 +3,7 @@ package dev.yaghm.plugin.internal
 import dev.yaghm.plugin.internal.config.GitHookConfig
 import org.gradle.api.Project
 
-class YaghmExtension {
+open class YaghmExtension {
 
     val gitHook = GitHookConfig()
 
