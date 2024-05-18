@@ -32,13 +32,15 @@ abstract class InstallGitHookTask : DefaultTask() {
         logger.apply {
             lifecycle("foobar")
             Fs().apply {
-
+                val project = project.getProjectPath()
+                createOrReplaceFile(project,"foo.txt")
             }
             lifecycle("${project.getProjectPath()}")
             lifecycle("${project.isGitFolderExist()}")
             lifecycle("${project.findGitFolder()}")
             lifecycle("${project.findGitHookFolder()}")
             checkIfVcsIsPresent(project)
+
         }
 
     }
