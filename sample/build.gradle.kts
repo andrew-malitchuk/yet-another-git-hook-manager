@@ -1,3 +1,6 @@
+import dev.yaghm.plugin.internal.config.configure
+import dev.yaghm.plugin.internal.config.doFirst
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
@@ -46,6 +49,36 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+    }
+}
+
+yaghm {
+    gitHook {
+        configure("pre-commit") {
+            doFirst {
+                "doFirst"
+            }
+//            doFirst {
+//                "doFirst"
+//            }
+            action = {
+                it.command = "action"
+            }
+            doLast = {
+                it.command = "doLast"
+            }
+        }
+//        preCommit {
+//            doFirst = {
+//                it.command = "doFirst"
+//            }
+//            action = {
+//                it.command = "action"
+//            }
+//            doLast = {
+//                it.command = "doLast"
+//            }
+//        }
     }
 }
 

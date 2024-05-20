@@ -13,6 +13,9 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
+/**
+ * https://medium.com/grandcentrix/how-to-debug-gradle-plugins-with-intellij-eef2ef681a7b
+ */
 abstract class InstallGitHookTask : DefaultTask() {
     init {
         group = "GitHook"
@@ -40,6 +43,8 @@ abstract class InstallGitHookTask : DefaultTask() {
             lifecycle("${project.findGitFolder()}")
             lifecycle("${project.findGitHookFolder()}")
             checkIfVcsIsPresent(project)
+
+            lifecycle(gitHookConfig.get().toString())
 
         }
 
