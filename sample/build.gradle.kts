@@ -1,5 +1,7 @@
+import dev.yaghm.plugin.internal.config.action
 import dev.yaghm.plugin.internal.config.configure
 import dev.yaghm.plugin.internal.config.doFirst
+import dev.yaghm.plugin.internal.config.doLast
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -58,14 +60,11 @@ yaghm {
             doFirst {
                 "doFirst"
             }
-//            doFirst {
-//                "doFirst"
-//            }
-            action = {
-                it.command = "action"
+            action {
+                "action"
             }
-            doLast = {
-                it.command = "doLast"
+            doLast {
+                "doLast"
             }
         }
 //        preCommit {

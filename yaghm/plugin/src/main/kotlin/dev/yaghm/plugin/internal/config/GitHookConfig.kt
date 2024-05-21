@@ -1,7 +1,6 @@
 package dev.yaghm.plugin.internal.config
 
 import dev.yaghm.plugin.common.model.FilePath
-import dev.yaghm.plugin.internal.core.dsl.GitHookAction
 import dev.yaghm.plugin.internal.core.dsl.GitHookType
 import dev.yaghm.plugin.internal.core.dsl.gradle
 
@@ -11,8 +10,12 @@ class GitHookConfig {
 
     //    var doFirst: ((GitHookAction) -> String)? = null
     var firstly: String? = null
-    var action: ((GitHookAction) -> Unit)? = null
-    var doLast: ((GitHookAction) -> Unit)? = null
+
+    //    var action: ((GitHookAction) -> Unit)? = null
+    var action: String? = null
+
+    //    var doLast: ((GitHookAction) -> Unit)? = null
+    var lastly: String? = null
     var filePath: FilePath? = null
 }
 
@@ -23,6 +26,8 @@ fun GitHookConfig.configure(type: String, configure: GitHookConfig.() -> Unit): 
     gitHookConfig.configure()
     this.type = gitHookConfig.type
     this.firstly = gitHookConfig.firstly
+    this.action = gitHookConfig.action
+    this.lastly = gitHookConfig.lastly
     return gitHookConfig
 }
 
@@ -33,15 +38,24 @@ fun GitHookConfig.doFirst(configure: () -> String): GitHookConfig {
     }
 }
 
+fun GitHookConfig.action(configure: () -> String): GitHookConfig {
+    val command = configure.invoke()
+    return this.also {
+        it.action = command
+    }
+}
+
+fun GitHookConfig.doLast(configure: () -> String): GitHookConfig {
+    val command = configure.invoke()
+    return this.also {
+        it.lastly = command
+    }
+}
+
 
 fun foo() = GitHookConfig().run {
     configure("preCommit") {
-        action = {
 
-        }
-        doLast = {
-            gradle("ktlint")
-        }
     }
 //    preCommit {
 //        action = {

@@ -9,10 +9,10 @@ import dev.yaghm.plugin.internal.config.GitHookConfig
 fun prePush(filePath: String): GitHookConfig {
     return GitHookConfig().apply {
         this.type = GitHookType.PRE_PUSH
-        this.action = {
-            GitHookAction().apply {
-                command = filePath
-            }
-        }
+//        this.action = {
+//            GitHookAction().apply {
+//                command = filePath
+//            }
+//        }
     }
 }
