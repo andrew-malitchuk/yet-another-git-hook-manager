@@ -2,6 +2,7 @@ import dev.yaghm.plugin.internal.config.action
 import dev.yaghm.plugin.internal.config.configure
 import dev.yaghm.plugin.internal.config.doFirst
 import dev.yaghm.plugin.internal.config.doLast
+import dev.yaghm.plugin.internal.config.onFile
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -65,6 +66,9 @@ yaghm {
             }
             doLast {
                 "doLast"
+            }
+            onFile {
+                "foobar.txt"
             }
         }
 //        preCommit {

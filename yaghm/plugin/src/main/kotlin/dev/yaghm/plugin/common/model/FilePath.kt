@@ -12,9 +12,9 @@ import dev.yaghm.plugin.common.core.regex.isFileValid
 value class FilePath(
     val value: String?,
 ) {
-    init {
-        require(!value.isNullOrBlank() && value.isFileValid) {
-            "Invalid value for `ArtifactPath`"
-        }
-    }
+//    init {
+//        require(!value.isNullOrBlank() && value.isFileValid) {
+//            "Invalid value for `ArtifactPath`"
+//        }
+//    }
 }

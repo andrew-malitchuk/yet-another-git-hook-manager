@@ -2,20 +2,14 @@ package dev.yaghm.plugin.internal.config
 
 import dev.yaghm.plugin.common.model.FilePath
 import dev.yaghm.plugin.internal.core.dsl.GitHookType
-import dev.yaghm.plugin.internal.core.dsl.gradle
+import dev.yaghm.plugin.internal.model.Command
 
 // TODO: value classes
 class GitHookConfig {
     var type: GitHookType? = null
-
-    //    var doFirst: ((GitHookAction) -> String)? = null
-    var firstly: String? = null
-
-    //    var action: ((GitHookAction) -> Unit)? = null
-    var action: String? = null
-
-    //    var doLast: ((GitHookAction) -> Unit)? = null
-    var lastly: String? = null
+    var doFirst: Command? = null
+    var action: Command? = null
+    var doLast: Command? = null
     var filePath: FilePath? = null
 }
 
@@ -25,30 +19,38 @@ fun GitHookConfig.configure(type: String, configure: GitHookConfig.() -> Unit): 
     }
     gitHookConfig.configure()
     this.type = gitHookConfig.type
-    this.firstly = gitHookConfig.firstly
+    this.doFirst = gitHookConfig.doFirst
     this.action = gitHookConfig.action
-    this.lastly = gitHookConfig.lastly
+    this.doLast = gitHookConfig.doLast
+    this.filePath = gitHookConfig.filePath
     return gitHookConfig
 }
 
 fun GitHookConfig.doFirst(configure: () -> String): GitHookConfig {
     val command = configure.invoke()
     return this.also {
-        it.firstly = command
+        it.doFirst = Command(command)
     }
 }
 
 fun GitHookConfig.action(configure: () -> String): GitHookConfig {
     val command = configure.invoke()
     return this.also {
-        it.action = command
+        it.action = Command(command)
     }
 }
 
 fun GitHookConfig.doLast(configure: () -> String): GitHookConfig {
     val command = configure.invoke()
     return this.also {
-        it.lastly = command
+        it.doLast = Command(command)
+    }
+}
+
+fun GitHookConfig.onFile(configure: () -> String): GitHookConfig {
+    val filePath = configure.invoke()
+    return this.also {
+        it.filePath = FilePath(filePath)
     }
 }
 
