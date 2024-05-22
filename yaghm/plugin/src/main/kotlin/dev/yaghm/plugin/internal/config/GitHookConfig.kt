@@ -1,7 +1,7 @@
 package dev.yaghm.plugin.internal.config
 
 import dev.yaghm.plugin.common.model.FilePath
-import dev.yaghm.plugin.internal.core.dsl.GitHookType
+import dev.yaghm.plugin.internal.core.dsl.githook.GitHookType
 import dev.yaghm.plugin.internal.model.Command
 
 // TODO: value classes
