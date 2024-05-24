@@ -1,10 +1,12 @@
 package dev.yaghm.plugin.internal.tasks
 
-import dev.yaghm.plugin.common.core.ext.findGitFolder
-import dev.yaghm.plugin.common.core.ext.findGitHookFolder
 import dev.yaghm.plugin.common.core.ext.getProjectPath
 import dev.yaghm.plugin.common.core.ext.isGitFolderExist
 import dev.yaghm.plugin.internal.config.GitHookConfig
+import dev.yaghm.plugin.internal.core.dsl.bash.bash
+import dev.yaghm.plugin.internal.core.dsl.bash.command
+import dev.yaghm.plugin.internal.core.dsl.bash.shebang
+import dev.yaghm.plugin.internal.core.dsl.githook.getFileName
 import dev.yaghm.plugin.internal.core.fs.Fs
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -33,18 +35,21 @@ abstract class InstallGitHookTask : DefaultTask() {
     fun action() {
 
         logger.apply {
-            lifecycle("foobar")
-            Fs().apply {
-                val project = project.getProjectPath()
-                createOrReplaceFile(project,"foo.txt")
-            }
-            lifecycle("${project.getProjectPath()}")
-            lifecycle("${project.isGitFolderExist()}")
-            lifecycle("${project.findGitFolder()}")
-            lifecycle("${project.findGitHookFolder()}")
             checkIfVcsIsPresent(project)
+            val bash = bash {
+                gitHookConfig.get().shebang?.let { shebang(it) }
+                command(gitHookConfig.get().gitHook)
+            }
 
-            lifecycle(gitHookConfig.get().toString())
+            val filename = gitHookConfig.get().type?.getFileName()
+            require(!filename.isNullOrEmpty())
+
+            Fs(filename) {
+                createOrReplaceFile(directoryPath = project.getProjectPath())
+                appendTextToFile(bash.fileContent)
+                makeFileExecutable()
+            }
+
 
         }
 

@@ -3,6 +3,10 @@ import dev.yaghm.plugin.internal.config.configure
 import dev.yaghm.plugin.internal.config.doFirst
 import dev.yaghm.plugin.internal.config.doLast
 import dev.yaghm.plugin.internal.config.onFile
+import dev.yaghm.plugin.internal.config.shebang
+import dev.yaghm.plugin.internal.config.useShebang
+import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
+import dev.yaghm.plugin.internal.core.dsl.githook.gradle
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -59,13 +63,16 @@ yaghm {
     gitHook {
         configure("pre-commit") {
             doFirst {
-                "doFirst"
+                gradle("doFirst")
             }
-            action {
-                "action"
-            }
+//            action {
+//                "action"
+//            }
             doLast {
                 "doLast"
+            }
+            useShebang {
+                Interpreter.BASH
             }
             onFile {
                 "foobar.txt"

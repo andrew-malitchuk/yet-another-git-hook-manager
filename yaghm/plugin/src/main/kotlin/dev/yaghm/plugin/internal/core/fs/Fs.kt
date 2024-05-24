@@ -7,13 +7,11 @@ import java.io.FileOutputStream
 import java.io.FileWriter
 import java.io.IOException
 
-class Fs {
-
-    var gitHookFile: File? = null
+class Fs(private val fileName: String) {
 
     // TODO: recode
     // TODO: test
-    fun createOrReplaceFile(directoryPath: String, fileName: String): File {
+    fun createOrReplaceFile(directoryPath: String): File {
         val directory = File(directoryPath)
         if (!directory.exists()) {
             directory.mkdirs()
@@ -44,14 +42,18 @@ class Fs {
         }
     }
 
-    fun deleteFile(filePath: String) {
-        val file = File(filePath)
+    fun deleteFile(fileName: String) {
+        val file = File(fileName)
         require(file.exists())
         file.delete()
     }
 
-    fun appendTextToFile(filePath: String, textToAdd: String) {
-        val file = File(filePath)
+    fun deleteFile() {
+        deleteFile(fileName)
+    }
+
+    fun appendTextToFile(textToAdd: String) {
+        val file = File(fileName)
 
         require(file.exists())
         require(textToAdd.isNotEmpty())
@@ -65,8 +67,8 @@ class Fs {
         }
     }
 
-    fun clearFile(filePath: String) {
-        val file = File(filePath)
+    fun clearFile() {
+        val file = File(fileName)
 
         require(file.exists())
 
@@ -79,14 +81,19 @@ class Fs {
         }
     }
 
-    fun makeFileExecutable(filePath: String): Boolean {
-        val file = File(filePath)
+    fun makeFileExecutable(): Boolean {
+        val file = File(fileName)
         require(file.exists())
         return if (file.exists()) {
             file.setExecutable(true)
         } else {
             false
         }
+    }
+
+
+    constructor(fileName: String, block: Fs.() -> Unit) : this(fileName) {
+        block.invoke(this)
     }
 
 }
