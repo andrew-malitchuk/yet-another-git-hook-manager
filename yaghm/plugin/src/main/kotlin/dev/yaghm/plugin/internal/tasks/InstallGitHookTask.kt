@@ -1,5 +1,6 @@
 package dev.yaghm.plugin.internal.tasks
 
+import dev.yaghm.plugin.common.core.ext.findGitHookFolder
 import dev.yaghm.plugin.common.core.ext.getProjectPath
 import dev.yaghm.plugin.common.core.ext.isGitFolderExist
 import dev.yaghm.plugin.internal.config.GitHookConfig
@@ -46,9 +47,13 @@ abstract class InstallGitHookTask : DefaultTask() {
             require(!filename.isNullOrEmpty())
 
             Fs(filename) {
-                createOrReplaceFile(directoryPath = project.getProjectPath())
-                appendTextToFile(bash.fileContent)
-                makeFileExecutable()
+                if(project.isGitFolderExist()){
+                    project.findGitHookFolder()?.absolutePath?.let{
+                        createOrReplaceFile(directoryPath = it)
+                        appendTextToFile(bash.fileContent)
+                        makeFileExecutable()
+                    }
+                }
             }
 
 
