@@ -3,10 +3,13 @@ import dev.yaghm.plugin.internal.config.configure
 import dev.yaghm.plugin.internal.config.doFirst
 import dev.yaghm.plugin.internal.config.doLast
 import dev.yaghm.plugin.internal.config.onFile
+import dev.yaghm.plugin.internal.config.preCommit
 import dev.yaghm.plugin.internal.config.shebang
 import dev.yaghm.plugin.internal.config.useShebang
 import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
 import dev.yaghm.plugin.internal.core.dsl.githook.gradle
+import dev.yaghm.plugin.internal.core.dsl.githook.gradleTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -41,6 +44,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += listOf("-Xcontext-receivers")
     }
     buildFeatures {
         compose = true
@@ -53,6 +57,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
@@ -61,13 +68,25 @@ android {
 
 yaghm {
     gitHook {
-        configure("pre-commit") {
+//        configure("pre-commit") {
+//            doFirst {
+//                gradle("doFirst")
+//            }
+//            doLast {
+//                "doLast"
+//            }
+//            useShebang {
+//                Interpreter.BASH
+//            }
+//            onFile {
+//                "foobar.txt"
+//            }
+//        }
+        preCommit {
             doFirst {
+//                gradleTask("doFirst")
                 gradle("doFirst")
             }
-//            action {
-//                "action"
-//            }
             doLast {
                 "doLast"
             }
@@ -78,17 +97,6 @@ yaghm {
                 "foobar.txt"
             }
         }
-//        preCommit {
-//            doFirst = {
-//                it.command = "doFirst"
-//            }
-//            action = {
-//                it.command = "action"
-//            }
-//            doLast = {
-//                it.command = "doLast"
-//            }
-//        }
     }
 }
 

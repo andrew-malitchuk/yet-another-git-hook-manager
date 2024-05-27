@@ -41,6 +41,7 @@ abstract class InstallGitHookTask : DefaultTask() {
                 command(gitHookConfig.get().gitHook)
             }
 
+
             val filename = gitHookConfig.get().type?.getFileName()
             require(!filename.isNullOrEmpty())
 

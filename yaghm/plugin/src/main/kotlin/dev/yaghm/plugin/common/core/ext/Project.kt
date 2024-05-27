@@ -32,3 +32,7 @@ fun Project.findGitHookFolder(): File? {
     return gitFolder?.absolutePath?.plus("/hooks")?.let { File(it) }
 
 }
+
+fun Project.checkIfTaskPresent(task: String): Boolean {
+    return project.tasks.findByName(task) != null
+}

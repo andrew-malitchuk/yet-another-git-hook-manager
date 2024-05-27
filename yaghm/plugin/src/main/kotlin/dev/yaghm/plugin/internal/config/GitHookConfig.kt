@@ -27,11 +27,11 @@ ${doLast?.value ?: ""}
         }
 }
 
-fun GitHookConfig.configure(type: String, configure: GitHookConfig.() -> Unit): GitHookConfig {
+fun GitHookConfig.configure(type: String, block: GitHookConfig.() -> Unit): GitHookConfig {
     val gitHookConfig = GitHookConfig().apply {
         this.type = GitHookType.entries.firstOrNull { it.type == type }
     }
-    gitHookConfig.configure()
+    gitHookConfig.block()
     this.type = gitHookConfig.type
     this.doFirst = gitHookConfig.doFirst
     this.action = gitHookConfig.action
@@ -39,6 +39,14 @@ fun GitHookConfig.configure(type: String, configure: GitHookConfig.() -> Unit): 
     this.shebang = gitHookConfig.shebang
     this.filePath = gitHookConfig.filePath
     return gitHookConfig
+}
+
+fun GitHookConfig.preCommit(block: GitHookConfig.() -> Unit): GitHookConfig {
+    return this.configure(GitHookType.PRE_COMMIT.type!!, block)
+}
+
+fun GitHookConfig.prePush(block: GitHookConfig.() -> Unit): GitHookConfig {
+    return this.configure(GitHookType.PRE_PUSH.type!!, block)
 }
 
 fun GitHookConfig.doFirst(configure: () -> String): GitHookConfig {
