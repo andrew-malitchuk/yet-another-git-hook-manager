@@ -59,9 +59,10 @@ class Fs(private val fileName: String) {
         require(textToAdd.isNotEmpty())
 
         try {
-            val writer = BufferedWriter(FileWriter(file, true))
-            writer.append(textToAdd)
-            writer.close()
+            BufferedWriter(FileWriter(file, true)).apply {
+                append(textToAdd)
+                close()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
