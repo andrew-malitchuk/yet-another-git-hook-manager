@@ -94,7 +94,7 @@ yaghm {
                 Interpreter.BASH
             }
             onFile {
-                "foobar.txt"
+                "foobar"
             }
         }
     }

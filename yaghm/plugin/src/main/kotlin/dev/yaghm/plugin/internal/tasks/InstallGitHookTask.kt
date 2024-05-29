@@ -56,7 +56,6 @@ abstract class InstallGitHookTask : DefaultTask() {
                 }
             }
 
-
         }
 
     }

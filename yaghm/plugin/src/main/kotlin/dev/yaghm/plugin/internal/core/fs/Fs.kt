@@ -9,6 +9,8 @@ import java.io.IOException
 
 class Fs(private val fileName: String) {
 
+    var file: File? = null
+
     // TODO: recode
     // TODO: test
     fun createOrReplaceFile(directoryPath: String): File {
@@ -22,40 +24,33 @@ class Fs(private val fileName: String) {
                 file.delete()
             }
             file.createNewFile()
+            this@Fs.file = file
         } catch (e: IOException) {
             e.printStackTrace()
         }
         return file
     }
 
-    fun cloneFile(sourceFilePath: String, destinationFilePath: String) {
+    fun cloneFile(sourceFilePath: String) {
         val sourceFile = File(sourceFilePath)
-        val destinationFile = File(destinationFilePath)
 
         require(sourceFile.exists())
-        require(destinationFile.exists())
+        require(file?.exists() == true)
 
         FileInputStream(sourceFile).use { inputStream ->
-            FileOutputStream(destinationFile).use { outputStream ->
+            FileOutputStream(file).use { outputStream ->
                 inputStream.copyTo(outputStream)
             }
         }
     }
 
-    fun deleteFile(fileName: String) {
-        val file = File(fileName)
-        require(file.exists())
-        file.delete()
-    }
-
     fun deleteFile() {
-        deleteFile(fileName)
+        require(file?.exists() == true)
+        file?.delete()
     }
 
     fun appendTextToFile(textToAdd: String) {
-        val file = File(fileName)
-
-        require(file.exists())
+        require(file?.exists() == true)
         require(textToAdd.isNotEmpty())
 
         try {
@@ -69,24 +64,21 @@ class Fs(private val fileName: String) {
     }
 
     fun clearFile() {
-        val file = File(fileName)
-
-        require(file.exists())
-
+        require(file?.exists() == true)
         try {
-            val writer = FileWriter(file)
-            writer.write("")
-            writer.close()
+            FileWriter(file).apply {
+                write("")
+                close()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     fun makeFileExecutable(): Boolean {
-        val file = File(fileName)
-        require(file.exists())
-        return if (file.exists()) {
-            file.setExecutable(true)
+        require(file?.exists() == true)
+        return if (file?.exists() == true) {
+            file?.setExecutable(true)!!
         } else {
             false
         }

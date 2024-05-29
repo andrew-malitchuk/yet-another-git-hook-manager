@@ -36,7 +36,7 @@ enum class GitHookType(val type: String?) {
 // TODO: fix
 fun GitHookType.getFileName():String{
    return when(this){
-        GitHookType.PRE_COMMIT -> "precommit.txt"
+        GitHookType.PRE_COMMIT -> "foobar"
         GitHookType.PREPARE_COMMIT_MSG -> TODO()
         GitHookType.COMMIT_MSG -> TODO()
         GitHookType.POST_COMMIT -> TODO()
