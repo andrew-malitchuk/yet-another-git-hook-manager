@@ -1,4 +1,4 @@
-package dev.yaghm.plugin.internal.core.dsl.githook
+package dev.yaghm.plugin.internal.config
 
 enum class GitHookType(val type: String?) {
     /**
@@ -31,16 +31,4 @@ enum class GitHookType(val type: String?) {
      */
     PRE_PUSH("prepush"),
     NI(null)
-}
-
-// TODO: fix
-fun GitHookType.getFileName():String{
-   return when(this){
-        GitHookType.PRE_COMMIT -> "foobar"
-        GitHookType.PREPARE_COMMIT_MSG -> TODO()
-        GitHookType.COMMIT_MSG -> TODO()
-        GitHookType.POST_COMMIT -> TODO()
-        GitHookType.PRE_PUSH -> TODO()
-        GitHookType.NI -> TODO()
-    }
 }
