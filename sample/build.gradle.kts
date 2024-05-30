@@ -1,14 +1,10 @@
-import dev.yaghm.plugin.internal.config.action
-import dev.yaghm.plugin.internal.config.configure
-import dev.yaghm.plugin.internal.config.doFirst
-import dev.yaghm.plugin.internal.config.doLast
-import dev.yaghm.plugin.internal.config.onFile
-import dev.yaghm.plugin.internal.config.preCommit
-import dev.yaghm.plugin.internal.config.shebang
-import dev.yaghm.plugin.internal.config.useShebang
+
 import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
+import dev.yaghm.plugin.internal.core.dsl.githook.doFirst
+import dev.yaghm.plugin.internal.core.dsl.githook.doLast
 import dev.yaghm.plugin.internal.core.dsl.githook.gradle
-import dev.yaghm.plugin.internal.core.dsl.githook.gradleTask
+import dev.yaghm.plugin.internal.core.dsl.githook.preCommit
+import dev.yaghm.plugin.internal.core.dsl.githook.useShebang
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
@@ -84,17 +80,13 @@ yaghm {
 //        }
         preCommit {
             doFirst {
-//                gradleTask("doFirst")
-                gradle("doFirst")
+                gradle("ktlintCheck")
             }
             doLast {
-                "doLast"
+                gradle("detekt")
             }
             useShebang {
                 Interpreter.BASH
-            }
-            onFile {
-                "foobar"
             }
         }
     }

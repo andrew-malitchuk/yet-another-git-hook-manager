@@ -30,7 +30,6 @@ fun Project.findGitFolder(): File? {
 fun Project.findGitHookFolder(): File? {
     val gitFolder = findGitFolder()
     return gitFolder?.absolutePath?.plus("/hooks")?.let { File(it) }
-
 }
 
 fun Project.checkIfTaskPresent(task: String): Boolean {

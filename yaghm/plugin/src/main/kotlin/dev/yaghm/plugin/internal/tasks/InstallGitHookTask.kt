@@ -7,7 +7,6 @@ import dev.yaghm.plugin.internal.config.GitHookConfig
 import dev.yaghm.plugin.internal.core.dsl.bash.bash
 import dev.yaghm.plugin.internal.core.dsl.bash.command
 import dev.yaghm.plugin.internal.core.dsl.bash.shebang
-import dev.yaghm.plugin.internal.core.dsl.githook.getFileName
 import dev.yaghm.plugin.internal.core.fs.Fs
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -38,24 +37,24 @@ abstract class InstallGitHookTask : DefaultTask() {
         logger.apply {
             checkIfVcsIsPresent(project)
             val bash = bash {
+                require(gitHookConfig.get().shebang != null)
+
                 gitHookConfig.get().shebang?.let { shebang(it) }
                 command(gitHookConfig.get().gitHook)
             }
 
-
-            val filename = gitHookConfig.get().type?.getFileName()
+            val filename = gitHookConfig.get().type?.type
             require(!filename.isNullOrEmpty())
 
             Fs(filename) {
-                if(project.isGitFolderExist()){
-                    project.findGitHookFolder()?.absolutePath?.let{
+                if (project.isGitFolderExist()) {
+                    project.findGitHookFolder()?.absolutePath?.let {
                         createOrReplaceFile(directoryPath = it)
                         appendTextToFile(bash.fileContent)
                         makeFileExecutable()
                     }
                 }
             }
-
         }
 
     }
