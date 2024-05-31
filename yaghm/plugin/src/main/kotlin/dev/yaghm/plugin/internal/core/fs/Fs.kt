@@ -1,5 +1,7 @@
 package dev.yaghm.plugin.internal.core.fs
 
+import dev.yaghm.plugin.common.core.ext.findGitHookFolder
+import org.gradle.api.Project
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileInputStream
@@ -86,6 +88,12 @@ class Fs(private val fileName: String) {
 
 
     constructor(fileName: String, block: Fs.() -> Unit) : this(fileName) {
+        block.invoke(this)
+    }
+
+    constructor(project: Project, fileName: String, block: Fs.() -> Unit) : this(fileName) {
+        val filePath= "${project.findGitHookFolder()?.absolutePath}${File.separator}$fileName"
+        file=File(filePath)
         block.invoke(this)
     }
 
