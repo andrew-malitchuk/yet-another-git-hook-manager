@@ -1,4 +1,4 @@
-package dev.yaghm.plugin.internal.core.dsl
+package dev.yaghm.plugin.internal.config
 
 enum class GitHookType(val type: String?) {
     /**
@@ -30,5 +30,5 @@ enum class GitHookType(val type: String?) {
      * It can be used to perform checks on the changes being pushed or prevent certain updates.
      */
     PRE_PUSH("prepush"),
-    NI(null)
+    NI(null),
 }

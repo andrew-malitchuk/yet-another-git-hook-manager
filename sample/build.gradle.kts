@@ -1,3 +1,12 @@
+
+import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
+import dev.yaghm.plugin.internal.core.dsl.githook.doFirst
+import dev.yaghm.plugin.internal.core.dsl.githook.doLast
+import dev.yaghm.plugin.internal.core.dsl.githook.gradle
+import dev.yaghm.plugin.internal.core.dsl.githook.preCommit
+import dev.yaghm.plugin.internal.core.dsl.githook.useShebang
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
@@ -31,6 +40,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += listOf("-Xcontext-receivers")
     }
     buildFeatures {
         compose = true
@@ -43,9 +53,42 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+    }
+}
+
+yaghm {
+    gitHook {
+//        configure("pre-commit") {
+//            doFirst {
+//                gradle("doFirst")
+//            }
+//            doLast {
+//                "doLast"
+//            }
+//            useShebang {
+//                Interpreter.BASH
+//            }
+//            onFile {
+//                "foobar.txt"
+//            }
+//        }
+        preCommit {
+            doFirst {
+                gradle("ktlintCheck")
+            }
+            doLast {
+                gradle("detekt")
+            }
+            useShebang {
+                Interpreter.BASH
+            }
+        }
     }
 }
 

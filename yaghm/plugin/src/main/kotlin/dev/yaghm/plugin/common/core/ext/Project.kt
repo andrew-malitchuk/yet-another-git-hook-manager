@@ -3,7 +3,6 @@ package dev.yaghm.plugin.common.core.ext
 import org.gradle.api.Project
 import java.io.File
 
-
 fun Project.getProjectPath(): String {
     return this.rootDir.absolutePath
 }
@@ -30,5 +29,8 @@ fun Project.findGitFolder(): File? {
 fun Project.findGitHookFolder(): File? {
     val gitFolder = findGitFolder()
     return gitFolder?.absolutePath?.plus("/hooks")?.let { File(it) }
+}
 
+fun Project.checkIfTaskPresent(task: String): Boolean {
+    return project.tasks.findByName(task) != null
 }

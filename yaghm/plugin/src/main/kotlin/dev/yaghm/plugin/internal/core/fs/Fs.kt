@@ -1,5 +1,7 @@
 package dev.yaghm.plugin.internal.core.fs
 
+import dev.yaghm.plugin.common.core.ext.findGitHookFolder
+import org.gradle.api.Project
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileInputStream
@@ -7,13 +9,12 @@ import java.io.FileOutputStream
 import java.io.FileWriter
 import java.io.IOException
 
-class Fs {
-
-    var gitHookFile: File? = null
+class Fs(private val fileName: String) {
+    var file: File? = null
 
     // TODO: recode
     // TODO: test
-    fun createOrReplaceFile(directoryPath: String, fileName: String): File {
+    fun createOrReplaceFile(directoryPath: String): File {
         val directory = File(directoryPath)
         if (!directory.exists()) {
             directory.mkdirs()
@@ -24,69 +25,73 @@ class Fs {
                 file.delete()
             }
             file.createNewFile()
+            this@Fs.file = file
         } catch (e: IOException) {
             e.printStackTrace()
         }
         return file
     }
 
-    fun cloneFile(sourceFilePath: String, destinationFilePath: String) {
+    fun cloneFile(sourceFilePath: String) {
         val sourceFile = File(sourceFilePath)
-        val destinationFile = File(destinationFilePath)
 
         require(sourceFile.exists())
-        require(destinationFile.exists())
+        require(file?.exists() == true)
 
         FileInputStream(sourceFile).use { inputStream ->
-            FileOutputStream(destinationFile).use { outputStream ->
+            FileOutputStream(file).use { outputStream ->
                 inputStream.copyTo(outputStream)
             }
         }
     }
 
-    fun deleteFile(filePath: String) {
-        val file = File(filePath)
-        require(file.exists())
-        file.delete()
+    fun deleteFile() {
+        require(file?.exists() == true)
+        file?.delete()
     }
 
-    fun appendTextToFile(filePath: String, textToAdd: String) {
-        val file = File(filePath)
-
-        require(file.exists())
+    fun appendTextToFile(textToAdd: String) {
+        require(file?.exists() == true)
         require(textToAdd.isNotEmpty())
 
         try {
-            val writer = BufferedWriter(FileWriter(file, true))
-            writer.append(textToAdd)
-            writer.close()
+            BufferedWriter(FileWriter(file, true)).apply {
+                append(textToAdd)
+                close()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun clearFile(filePath: String) {
-        val file = File(filePath)
-
-        require(file.exists())
-
+    fun clearFile() {
+        require(file?.exists() == true)
         try {
-            val writer = FileWriter(file)
-            writer.write("")
-            writer.close()
+            FileWriter(file).apply {
+                write("")
+                close()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun makeFileExecutable(filePath: String): Boolean {
-        val file = File(filePath)
-        require(file.exists())
-        return if (file.exists()) {
-            file.setExecutable(true)
+    fun makeFileExecutable(): Boolean {
+        require(file?.exists() == true)
+        return if (file?.exists() == true) {
+            file?.setExecutable(true)!!
         } else {
             false
         }
     }
 
+    constructor(fileName: String, block: Fs.() -> Unit) : this(fileName) {
+        block.invoke(this)
+    }
+
+    constructor(project: Project, fileName: String, block: Fs.() -> Unit) : this(fileName) {
+        val filePath = "${project.findGitHookFolder()?.absolutePath}${File.separator}$fileName"
+        file = File(filePath)
+        block.invoke(this)
+    }
 }

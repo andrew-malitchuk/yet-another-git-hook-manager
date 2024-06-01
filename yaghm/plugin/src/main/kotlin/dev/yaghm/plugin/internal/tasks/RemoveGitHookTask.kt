@@ -1,11 +1,7 @@
 package dev.yaghm.plugin.internal.tasks
 
-import dev.yaghm.plugin.common.core.ext.findGitHookFolder
 import dev.yaghm.plugin.common.core.ext.isGitFolderExist
 import dev.yaghm.plugin.internal.config.GitHookConfig
-import dev.yaghm.plugin.internal.core.dsl.bash.bash
-import dev.yaghm.plugin.internal.core.dsl.bash.command
-import dev.yaghm.plugin.internal.core.dsl.bash.shebang
 import dev.yaghm.plugin.internal.core.fs.Fs
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -17,10 +13,10 @@ import org.gradle.api.tasks.options.Option
 /**
  * https://medium.com/grandcentrix/how-to-debug-gradle-plugins-with-intellij-eef2ef681a7b
  */
-abstract class InstallGitHookTask : DefaultTask() {
+abstract class RemoveGitHookTask : DefaultTask() {
     init {
         group = "GitHook"
-        description = "Install specific GitHook"
+        description = "Remove specific GitHook"
     }
 
     @get:Input
@@ -34,24 +30,12 @@ abstract class InstallGitHookTask : DefaultTask() {
     fun action() {
         logger.apply {
             checkIfVcsIsPresent(project)
-            val bash =
-                bash {
-                    require(gitHookConfig.get().shebang != null)
-
-                    gitHookConfig.get().shebang?.let { shebang(it) }
-                    command(gitHookConfig.get().gitHook)
-                }
-
             val filename = gitHookConfig.get().type?.type
             require(!filename.isNullOrEmpty())
 
-            Fs(filename) {
+            Fs(project, filename) {
                 if (project.isGitFolderExist()) {
-                    project.findGitHookFolder()?.absolutePath?.let {
-                        createOrReplaceFile(directoryPath = it)
-                        appendTextToFile(bash.fileContent)
-                        makeFileExecutable()
-                    }
+                    deleteFile()
                 }
             }
         }
