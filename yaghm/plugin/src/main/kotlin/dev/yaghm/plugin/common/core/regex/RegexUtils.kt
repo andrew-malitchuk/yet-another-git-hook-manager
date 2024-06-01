@@ -6,7 +6,6 @@ import java.io.File
 import java.nio.file.InvalidPathException
 import java.nio.file.Paths
 
-
 /**
  * Is [path] contains valid file system path?
  */

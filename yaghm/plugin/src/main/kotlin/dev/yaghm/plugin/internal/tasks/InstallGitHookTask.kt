@@ -1,7 +1,6 @@
 package dev.yaghm.plugin.internal.tasks
 
 import dev.yaghm.plugin.common.core.ext.findGitHookFolder
-import dev.yaghm.plugin.common.core.ext.getProjectPath
 import dev.yaghm.plugin.common.core.ext.isGitFolderExist
 import dev.yaghm.plugin.internal.config.GitHookConfig
 import dev.yaghm.plugin.internal.core.dsl.bash.bash
@@ -33,15 +32,15 @@ abstract class InstallGitHookTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-
         logger.apply {
             checkIfVcsIsPresent(project)
-            val bash = bash {
-                require(gitHookConfig.get().shebang != null)
+            val bash =
+                bash {
+                    require(gitHookConfig.get().shebang != null)
 
-                gitHookConfig.get().shebang?.let { shebang(it) }
-                command(gitHookConfig.get().gitHook)
-            }
+                    gitHookConfig.get().shebang?.let { shebang(it) }
+                    command(gitHookConfig.get().gitHook)
+                }
 
             val filename = gitHookConfig.get().type?.type
             require(!filename.isNullOrEmpty())
@@ -56,7 +55,6 @@ abstract class InstallGitHookTask : DefaultTask() {
                 }
             }
         }
-
     }
 
     context(org.gradle.api.logging.Logger)
@@ -76,6 +74,4 @@ abstract class InstallGitHookTask : DefaultTask() {
             const val DEBUG_DESCRIPTION = "debugOutput"
         }
     }
-
 }
-

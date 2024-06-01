@@ -10,7 +10,6 @@ import java.io.FileWriter
 import java.io.IOException
 
 class Fs(private val fileName: String) {
-
     var file: File? = null
 
     // TODO: recode
@@ -86,15 +85,13 @@ class Fs(private val fileName: String) {
         }
     }
 
-
     constructor(fileName: String, block: Fs.() -> Unit) : this(fileName) {
         block.invoke(this)
     }
 
     constructor(project: Project, fileName: String, block: Fs.() -> Unit) : this(fileName) {
-        val filePath= "${project.findGitHookFolder()?.absolutePath}${File.separator}$fileName"
-        file=File(filePath)
+        val filePath = "${project.findGitHookFolder()?.absolutePath}${File.separator}$fileName"
+        file = File(filePath)
         block.invoke(this)
     }
-
 }

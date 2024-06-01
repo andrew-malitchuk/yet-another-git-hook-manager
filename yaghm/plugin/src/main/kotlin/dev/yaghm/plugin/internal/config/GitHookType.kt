@@ -30,5 +30,5 @@ enum class GitHookType(val type: String?) {
      * It can be used to perform checks on the changes being pushed or prevent certain updates.
      */
     PRE_PUSH("prepush"),
-    NI(null)
+    NI(null),
 }

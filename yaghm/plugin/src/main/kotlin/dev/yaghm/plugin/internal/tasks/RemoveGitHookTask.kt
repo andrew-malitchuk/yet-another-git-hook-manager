@@ -1,6 +1,5 @@
 package dev.yaghm.plugin.internal.tasks
 
-import dev.yaghm.plugin.common.core.ext.findGitHookFolder
 import dev.yaghm.plugin.common.core.ext.isGitFolderExist
 import dev.yaghm.plugin.internal.config.GitHookConfig
 import dev.yaghm.plugin.internal.core.fs.Fs
@@ -29,7 +28,6 @@ abstract class RemoveGitHookTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-
         logger.apply {
             checkIfVcsIsPresent(project)
             val filename = gitHookConfig.get().type?.type
@@ -41,7 +39,6 @@ abstract class RemoveGitHookTask : DefaultTask() {
                 }
             }
         }
-
     }
 
     context(org.gradle.api.logging.Logger)
@@ -61,5 +58,4 @@ abstract class RemoveGitHookTask : DefaultTask() {
             const val DEBUG_DESCRIPTION = "debugOutput"
         }
     }
-
 }

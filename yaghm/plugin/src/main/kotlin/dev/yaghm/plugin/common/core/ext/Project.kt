@@ -3,7 +3,6 @@ package dev.yaghm.plugin.common.core.ext
 import org.gradle.api.Project
 import java.io.File
 
-
 fun Project.getProjectPath(): String {
     return this.rootDir.absolutePath
 }

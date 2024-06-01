@@ -52,6 +52,3 @@ fun bash(configure: Bash.() -> Unit): Bash {
     bash.configure()
     return bash
 }
-
-
-

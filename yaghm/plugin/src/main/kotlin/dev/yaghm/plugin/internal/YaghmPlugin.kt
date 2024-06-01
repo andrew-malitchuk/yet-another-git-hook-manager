@@ -7,7 +7,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class YaghmPlugin : Plugin<Project> {
-
     override fun apply(project: Project) {
         with(project) {
             val yaghmConfig = yaghmConfig()
@@ -46,5 +45,4 @@ class YaghmPlugin : Plugin<Project> {
             const val DESCRIPTION_REMOVE_GIT_HOOK = "removeGitHook"
         }
     }
-
 }

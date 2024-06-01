@@ -7,11 +7,14 @@ import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
 import dev.yaghm.plugin.internal.core.dsl.bash.Shebang
 import dev.yaghm.plugin.internal.model.Command
 
-
-fun GitHookConfig.configure(type: String, block: GitHookConfig.() -> Unit): GitHookConfig {
-    val gitHookConfig = GitHookConfig().apply {
-        this.type = GitHookType.entries.firstOrNull { it.type == type }
-    }
+fun GitHookConfig.configure(
+    type: String,
+    block: GitHookConfig.() -> Unit,
+): GitHookConfig {
+    val gitHookConfig =
+        GitHookConfig().apply {
+            this.type = GitHookType.entries.firstOrNull { it.type == type }
+        }
     require(gitHookConfig.type != null)
     gitHookConfig.block()
     this.type = gitHookConfig.type
