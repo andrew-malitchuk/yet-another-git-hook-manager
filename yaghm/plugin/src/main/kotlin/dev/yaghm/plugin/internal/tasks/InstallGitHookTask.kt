@@ -3,9 +3,6 @@ package dev.yaghm.plugin.internal.tasks
 import dev.yaghm.plugin.common.core.ext.findGitHookFolder
 import dev.yaghm.plugin.common.core.ext.isGitFolderExist
 import dev.yaghm.plugin.internal.config.GitHookConfig
-import dev.yaghm.plugin.internal.core.dsl.bash.bash
-import dev.yaghm.plugin.internal.core.dsl.bash.command
-import dev.yaghm.plugin.internal.core.dsl.bash.shebang
 import dev.yaghm.plugin.internal.core.fs.Fs
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -30,16 +27,28 @@ abstract class InstallGitHookTask : DefaultTask() {
     @get:Input
     var debugOutput: Boolean = false
 
+    private var sourceOfTruth: SOURCE_OF_TRUTH? = null
+
     @TaskAction
     fun action() {
         logger.apply {
             checkIfVcsIsPresent(project)
-            val bash =
-                bash {
-                    require(gitHookConfig.get().shebang != null)
 
-                    gitHookConfig.get().shebang?.let { shebang(it) }
-                    command(gitHookConfig.get().gitHook)
+            val contentFile = gitHookConfig.get().filePath?.value
+            val contentDsl = gitHookConfig.get().gitHook.value
+
+            sourceOfTruth =
+                when {
+                    (contentFile.isNullOrEmpty() && !contentDsl.isNullOrEmpty()) ->
+                        SOURCE_OF_TRUTH.DSL
+
+                    (!contentFile.isNullOrEmpty() && contentDsl.isNullOrEmpty()) ->
+                        SOURCE_OF_TRUTH.FILE
+
+                    (!contentFile.isNullOrEmpty() && !contentDsl.isNullOrEmpty()) ->
+                        SOURCE_OF_TRUTH.DSL
+
+                    else -> throw IllegalArgumentException()
                 }
 
             val filename = gitHookConfig.get().type?.type
@@ -49,7 +58,12 @@ abstract class InstallGitHookTask : DefaultTask() {
                 if (project.isGitFolderExist()) {
                     project.findGitHookFolder()?.absolutePath?.let {
                         createOrReplaceFile(directoryPath = it)
-                        appendTextToFile(bash.fileContent)
+                        when (sourceOfTruth) {
+                            SOURCE_OF_TRUTH.FILE -> contentFile?.let(::cloneFile)
+                            SOURCE_OF_TRUTH.DSL -> contentDsl?.let(::appendTextToFile)
+                            else -> throw IllegalArgumentException()
+                        }
+
                         makeFileExecutable()
                     }
                 }
@@ -73,5 +87,11 @@ abstract class InstallGitHookTask : DefaultTask() {
         object Descriptions {
             const val DEBUG_DESCRIPTION = "debugOutput"
         }
+    }
+
+    enum class SOURCE_OF_TRUTH {
+        FILE,
+        DSL,
+        NI,
     }
 }

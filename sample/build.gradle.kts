@@ -1,8 +1,9 @@
-
 import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
 import dev.yaghm.plugin.internal.core.dsl.githook.doFirst
 import dev.yaghm.plugin.internal.core.dsl.githook.doLast
 import dev.yaghm.plugin.internal.core.dsl.githook.gradle
+import dev.yaghm.plugin.internal.core.dsl.githook.local
+import dev.yaghm.plugin.internal.core.dsl.githook.onFile
 import dev.yaghm.plugin.internal.core.dsl.githook.preCommit
 import dev.yaghm.plugin.internal.core.dsl.githook.useShebang
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -79,14 +80,17 @@ yaghm {
 //            }
 //        }
         preCommit {
-            doFirst {
-                gradle("ktlintCheck")
-            }
-            doLast {
-                gradle("detekt")
-            }
+//            doFirst {
+//                gradle("ktlintCheck")
+//            }
+//            doLast {
+//                gradle("detekt")
+//            }
             useShebang {
                 Interpreter.BASH
+            }
+            onFile {
+                local(project, "foobar.txt").toString()
             }
         }
     }
