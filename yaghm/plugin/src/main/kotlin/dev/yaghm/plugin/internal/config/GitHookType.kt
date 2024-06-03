@@ -1,5 +1,11 @@
 package dev.yaghm.plugin.internal.config
 
+/**
+ * Represents the different types of Git hooks available.
+ *
+ * Git hooks are scripts that are executed at specific points in the Git workflow.
+ * They can be used to automate tasks, enforce coding standards, or perform other checks.
+ */
 enum class GitHookType(val type: String?) {
     /**
      * Executes before a commit is created. It can be used to enforce coding standards,
