@@ -1,6 +1,7 @@
 import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
 import dev.yaghm.plugin.internal.core.dsl.githook.doFirst
 import dev.yaghm.plugin.internal.core.dsl.githook.doLast
+import dev.yaghm.plugin.internal.core.dsl.githook.echo
 import dev.yaghm.plugin.internal.core.dsl.githook.gradle
 import dev.yaghm.plugin.internal.core.dsl.githook.local
 import dev.yaghm.plugin.internal.core.dsl.githook.onFile
@@ -80,9 +81,10 @@ yaghm {
 //            }
 //        }
         preCommit {
-//            doFirst {
+            doFirst {
 //                gradle("ktlintCheck")
-//            }
+                echo("hello")
+            }
 //            doLast {
 //                gradle("detekt")
 //            }
