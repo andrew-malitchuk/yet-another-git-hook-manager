@@ -1,6 +1,7 @@
 package dev.yaghm.plugin.internal
 
 import dev.yaghm.plugin.internal.YaghmExtension.Companion.yaghmConfig
+import dev.yaghm.plugin.internal.tasks.ReviewGitHookTask
 import dev.yaghm.plugin.internal.tasks.InstallGitHookTask
 import dev.yaghm.plugin.internal.tasks.RemoveGitHookTask
 import org.gradle.api.Plugin
@@ -26,6 +27,12 @@ class YaghmPlugin : Plugin<Project> {
                         task.gitHookConfig.set(this)
                     }
                 }
+                register(Tasks.REVIEW_GIT_HOOK, ReviewGitHookTask::class.java) { task ->
+                    yaghmConfig.gitHook.apply {
+                        task.group = Group.GROUP_GIT_HOOK
+                        task.description = Description.DESCRIPTION_REVIEW_GIT_HOOK
+                    }
+                }
             }
         }
     }
@@ -34,6 +41,7 @@ class YaghmPlugin : Plugin<Project> {
         object Tasks {
             const val INSTALL_GIT_HOOK = "installGitHook"
             const val REMOVE_GIT_HOOK = "removeGitHook"
+            const val REVIEW_GIT_HOOK = "reviewGitHook"
         }
 
         object Group {
@@ -43,6 +51,7 @@ class YaghmPlugin : Plugin<Project> {
         object Description {
             const val DESCRIPTION_INSTALL_GIT_HOOK = "installGitHook"
             const val DESCRIPTION_REMOVE_GIT_HOOK = "removeGitHook"
+            const val DESCRIPTION_REVIEW_GIT_HOOK = "reviewGitHook"
         }
     }
 }
