@@ -190,4 +190,34 @@ class Fs(private val fileName: String) {
         }
     }
 
+    companion object {
+
+        /**
+         * Gets a list of files with the specified extension from the target directory.
+         *
+         * This function traverses the target directory recursively and returns a list of files
+         * that have the matching extension. It excludes directories and files with different extensions.
+         *
+         * @param targetDirectory The path to the directory to search.
+         * @param extension The extension of the files to find (e.g., ".txt", ".png").
+         *
+         * @throws IllegalArgumentException if the target path is not a directory.
+         *
+         * @return A list of files with the specified extension found in the target directory.
+         */
+        fun getFilesWithExtension(
+            targetDirectory: String,
+            extension: String,
+        ): List<File> {
+            val targetDir = File(targetDirectory)
+            if (!targetDir.isDirectory) {
+                throw IllegalArgumentException("Target '$targetDirectory' is not a directory")
+            }
+
+            return targetDir.walkTopDown()
+                .filter { it.isFile }
+                .filter { it.extension == extension }
+                .toList()
+        }
+    }
 }

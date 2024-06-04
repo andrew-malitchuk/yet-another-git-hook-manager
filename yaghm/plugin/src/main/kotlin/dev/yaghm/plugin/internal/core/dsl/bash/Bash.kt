@@ -75,7 +75,6 @@ fun Bash.log(configure: () -> String): Bash {
     }
 }
 
-
 /**
  * Adds a command to the content of this Bash script using a lambda expression.
  *

@@ -104,7 +104,6 @@ fun GitHookConfig.action(configure: () -> String): GitHookConfig {
     }
 }
 
-
 /**
  * Adds a command to be executed after the main script in the 'doLast' block of the Git hook script using a lambda expression.
  *

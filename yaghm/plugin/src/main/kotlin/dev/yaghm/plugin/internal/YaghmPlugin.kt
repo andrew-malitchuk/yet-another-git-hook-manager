@@ -1,9 +1,9 @@
 package dev.yaghm.plugin.internal
 
 import dev.yaghm.plugin.internal.YaghmExtension.Companion.yaghmConfig
-import dev.yaghm.plugin.internal.tasks.ReviewGitHookTask
 import dev.yaghm.plugin.internal.tasks.InstallGitHookTask
 import dev.yaghm.plugin.internal.tasks.RemoveGitHookTask
+import dev.yaghm.plugin.internal.tasks.ReviewGitHookTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
