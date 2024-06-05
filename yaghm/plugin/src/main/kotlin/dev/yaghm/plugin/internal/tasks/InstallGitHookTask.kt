@@ -11,8 +11,31 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
+
 /**
- * https://medium.com/grandcentrix/how-to-debug-gradle-plugins-with-intellij-eef2ef681a7b
+ * An abstract Gradle task for installing Git hooks within a project.
+ *
+ * This task helps automate the process of installing Git hooks in your Gradle project. It
+ * provides a flexible way to define the Git hook to be installed and its content source.
+ *
+ * The task performs the following steps during execution:
+ *
+ * 1. Checks for the presence of a VCS (Version Control System) by looking for the `.git` folder.
+ * 2. Extracts the Git hook configuration details from the provided `gitHookConfig` property.
+ * 3. Determines the source of truth for the Git hook content based on the presence of file path
+ *    and DSL definition.
+ * 4. Creates or replaces the corresponding Git hook file based on the Git hook type.
+ * 5. Depending on the source of truth, it either clones the content from the specified file path
+ *    or appends the provided DSL definition to the Git hook file.
+ * 6. Attempts to make the created Git hook file executable.
+ *
+ * This task throws an `IllegalArgumentException` if:
+ *
+ * - VCS is not found (no `.git` folder).
+ * - Both file path and DSL definition are provided (ambiguous source).
+ * - The Git hook type is not found.
+ *
+ * @see GitHookConfig
  */
 abstract class InstallGitHookTask : DefaultTask() {
     init {

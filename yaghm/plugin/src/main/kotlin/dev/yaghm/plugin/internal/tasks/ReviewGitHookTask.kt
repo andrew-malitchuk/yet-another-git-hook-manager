@@ -8,11 +8,24 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 
 /**
- * - git vcs;
- * - installed githooks;
- * - git hook location.
+ * An abstract Gradle task for reviewing the current state of Git hooks in a project.
+ *
+ * This task helps you assess the "health" of your Git hooks by checking for their presence and location
+ * within the project. It performs the following actions:
+ *
+ * 1. Checks if a VCS (Version Control System) is present by looking for the `.git` folder.
+ * 2. If VCS is found, retrieves a list of all installed Git hook files and logs their names.
+ * 3. If VCS is found, retrieves the absolute path of the Git hook folder and logs its location.
+ *
+ * This task relies on the project being a Git project and throws an `IllegalStateException` if VCS
+ * is not found.
+ *
+ * @see isGitFolderExist
+ * @see findGitHookFolder
+ * @see getFilesWithExtension
  */
 abstract class ReviewGitHookTask : DefaultTask() {
+
     init {
         group = "GitHook"
         description = "Check current GitHook \"health\""

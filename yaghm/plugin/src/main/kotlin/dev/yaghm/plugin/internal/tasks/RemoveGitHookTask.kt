@@ -11,7 +11,23 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
 /**
- * https://medium.com/grandcentrix/how-to-debug-gradle-plugins-with-intellij-eef2ef681a7b
+ * An abstract Gradle task for removing a specific Git hook from a project.
+ *
+ * This task helps automate the process of removing a Git hook from your Gradle project. It allows
+ * you to specify the Git hook to be removed by referencing its type through the `gitHookConfig` property.
+ * This task also supports enabling debug logging for troubleshooting purposes.
+ *
+ * The task performs the following steps during execution:
+ *
+ * 1. Checks for the presence of a VCS (Version Control System) by looking for the `.git` folder.
+ * 2. Extracts the Git hook type from the provided `gitHookConfig` property.
+ * 3. Creates an `Fs` instance associated with the project and the Git hook type.
+ * 4. Checks if a Git folder exists in the project.
+ * 5. If a Git folder exists, attempts to delete the corresponding Git hook file based on the type.
+ *
+ * This task throws an `IllegalArgumentException` if the VCS is not found (no `.git` folder).
+ *
+ * @see GitHookConfig
  */
 abstract class RemoveGitHookTask : DefaultTask() {
     init {
