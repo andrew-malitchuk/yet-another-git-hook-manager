@@ -7,6 +7,34 @@ import dev.yaghm.plugin.internal.tasks.ReviewGitHookTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+/**
+ * A Gradle plugin for Yaghm, providing functionalities to manage Git hooks within your project.
+ *
+ * This plugin simplifies the process of installing, removing, and reviewing Git hooks in your Gradle project.
+ * It offers the following functionalities:
+ *
+ *  - **Configuration:** You can configure the Git hook settings (type, content source) through the `yaghmConfig`
+ *    extension available on your project.
+ *  - **Installation:** The plugin provides an `installGitHook` task that installs a Git hook based on the
+ *    configuration provided in `yaghmConfig.gitHook`.
+ *  - **Removal:** The plugin provides a `removeGitHook` task that removes a Git hook based on the configuration
+ *    provided in `yaghmConfig.gitHook`.
+ *  - **Review:** The plugin provides a `reviewGitHook` task that checks for the presence and location of Git hooks
+ *    within your project.
+ *
+ * To use this plugin, apply it to your project in the `build.gradle` file:
+ *
+ * ```gradle
+ * plugins {
+ *     id 'your-yaghm-plugin-id' version 'your-plugin-version'
+ * }
+ * ```
+ *
+ * @see YaghmExtension
+ * @see InstallGitHookTask
+ * @see RemoveGitHookTask
+ * @see ReviewGitHookTask
+ */
 class YaghmPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
