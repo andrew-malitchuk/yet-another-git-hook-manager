@@ -11,7 +11,6 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
-
 /**
  * An abstract Gradle task for installing Git hooks within a project.
  *

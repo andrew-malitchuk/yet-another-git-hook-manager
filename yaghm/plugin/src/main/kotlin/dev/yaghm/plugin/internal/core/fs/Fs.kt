@@ -191,7 +191,6 @@ class Fs(private val fileName: String) {
     }
 
     companion object {
-
         /**
          * Gets a list of files with the specified extension from the target directory.
          *

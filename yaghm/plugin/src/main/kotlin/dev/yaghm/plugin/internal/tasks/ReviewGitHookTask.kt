@@ -25,7 +25,6 @@ import org.gradle.api.tasks.TaskAction
  * @see getFilesWithExtension
  */
 abstract class ReviewGitHookTask : DefaultTask() {
-
     init {
         group = "GitHook"
         description = "Check current GitHook \"health\""
