@@ -20,9 +20,9 @@ class Bash {
     val fileContent: String
         get() {
             return """
-                ${shebang?.interpreter}shebang?.interpreter}
-                $contentcontent
-                """.trimIndent().trim()
+${shebang?.interpreter}
+$content
+""".trimIndent().trim()
         }
 }
 

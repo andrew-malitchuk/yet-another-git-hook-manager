@@ -37,11 +37,11 @@ class GitHookConfig {
     val gitHook: Command
         get() {
             return Command(
-                """
-                ${doFirst?.value ?: ""}doFirst?.value ?: ""}
-                ${action?.value ?: ""}action?.value ?: ""}
-                ${doLast?.value ?: ""}doLast?.value ?: ""}
-                """.trimIndent().trim(),
+"""
+${doFirst?.value ?: ""}doFirst?.value ?: ""}
+${action?.value ?: ""}action?.value ?: ""}
+${doLast?.value ?: ""}doLast?.value ?: ""}
+""".trimIndent().trim(),
             )
         }
 }
