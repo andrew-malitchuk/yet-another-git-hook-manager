@@ -1,4 +1,6 @@
 import dev.yaghm.plugin.internal.core.dsl.bash.Interpreter
+import dev.yaghm.plugin.internal.core.dsl.githook.action
+import dev.yaghm.plugin.internal.core.dsl.githook.configure
 import dev.yaghm.plugin.internal.core.dsl.githook.doFirst
 import dev.yaghm.plugin.internal.core.dsl.githook.doLast
 import dev.yaghm.plugin.internal.core.dsl.githook.echo
@@ -33,8 +35,7 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-        }
+        getByName("debug") {}
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -66,33 +67,23 @@ tasks.withType<KotlinCompile> {
 
 yaghm {
     gitHook {
-//        configure("pre-commit") {
-//            doFirst {
-//                gradle("doFirst")
-//            }
-//            doLast {
-//                "doLast"
-//            }
-//            useShebang {
-//                Interpreter.BASH
-//            }
-//            onFile {
-//                "foobar.txt"
-//            }
-//        }
+        configure("pre-commit") {
+            onFile {
+                "foobar.txt"
+            }
+        }
         preCommit {
             doFirst {
-//                gradle("ktlintCheck")
-                echo("hello")
+                echo("hello world")
             }
-//            doLast {
-//                gradle("detekt")
-//            }
+            action {
+                "echo \"main action\""
+            }
+            doLast {
+                gradle("detekt")
+            }
             useShebang {
                 Interpreter.BASH
-            }
-            onFile {
-                local(project, "foobar.txt").toString()
             }
         }
     }
