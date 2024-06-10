@@ -15,7 +15,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    id("dev.yaghm.plugin")
+    id("io.github.andrew-malitchuk.yaghm")
 }
 
 android {

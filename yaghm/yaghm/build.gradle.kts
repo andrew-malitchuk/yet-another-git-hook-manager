@@ -38,7 +38,7 @@ gradlePlugin {
     website.set(property("WEBSITE").toString())
     vcsUrl.set(property("VCS_URL").toString())
     plugins {
-        create("dev.yaghm.plugin") {
+        create("io.github.andrew-malitchuk.yaghm") {
             id = property("ID").toString()
             implementationClass = property("IMPLEMENTATION_CLASS").toString()
             version = property("VERSION").toString()

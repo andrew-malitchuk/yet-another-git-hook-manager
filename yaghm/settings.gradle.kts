@@ -25,4 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = ("yaghm")
 
-include(":plugin")
+include(":yaghm")
