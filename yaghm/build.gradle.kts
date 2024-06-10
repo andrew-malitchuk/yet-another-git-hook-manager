@@ -35,7 +35,6 @@ allprojects {
             freeCompilerArgs += listOf("-Xcontext-receivers")
         }
     }
-
 }
 
 tasks.withType<Detekt>().configureEach {
