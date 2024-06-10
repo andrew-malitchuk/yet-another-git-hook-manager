@@ -13,6 +13,7 @@ import dev.yaghm.plugin.internal.model.Command
  * @property content The content of the Bash script as a string.
  * @return [String] The complete Bash script content with shebang (if provided) and script commands.
  */
+class Bash {
 
     var shebang: Shebang? = null
     var content: String = ""
@@ -24,6 +25,7 @@ ${shebang?.interpreter}
 $content
 """.trimIndent().trim()
         }
+}
 
 /**
  * Configures the shebang (interpreter line) for this Bash script using a lambda expression.
