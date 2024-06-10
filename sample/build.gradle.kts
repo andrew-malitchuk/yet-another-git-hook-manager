@@ -5,7 +5,6 @@ import dev.yaghm.plugin.internal.core.dsl.githook.doFirst
 import dev.yaghm.plugin.internal.core.dsl.githook.doLast
 import dev.yaghm.plugin.internal.core.dsl.githook.echo
 import dev.yaghm.plugin.internal.core.dsl.githook.gradle
-import dev.yaghm.plugin.internal.core.dsl.githook.local
 import dev.yaghm.plugin.internal.core.dsl.githook.onFile
 import dev.yaghm.plugin.internal.core.dsl.githook.preCommit
 import dev.yaghm.plugin.internal.core.dsl.githook.useShebang
