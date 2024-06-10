@@ -24,7 +24,6 @@ ${shebang?.interpreter}
 $content
 """.trimIndent().trim()
         }
-}
 
 /**
  * Configures the shebang (interpreter line) for this Bash script using a lambda expression.
